@@ -1,0 +1,27 @@
+[tool.black]
+line-length = 79
+target-version = ['py39']
+include = '\.pyi?$'
+extend-exclude = 'migrations/*'
+
+[tool.poetry]
+name = "Cerberus"
+version = "0.1.0"
+description = "API for tracking csgo players, tournaments, etc."
+authors = ["Milos Nikic <milos.nikic@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django-extensions = "^3.2.0"
+Django = "^4.1.1"
+djangorestframework = "^3.13.1"
+
+[tool.poetry.dev-dependencies]
+pylint-django = "^2.5.3"
+pylint = "^2.15.0"
+black = "^22.8.0"
+mypy = "^0.971"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
