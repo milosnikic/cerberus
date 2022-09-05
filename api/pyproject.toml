@@ -1,9 +1,3 @@
-[tool.black]
-line-length = 79
-target-version = ['py39']
-include = '\.pyi?$'
-extend-exclude = 'migrations/*'
-
 [tool.poetry]
 name = "Cerberus"
 version = "0.1.0"
@@ -15,6 +9,8 @@ python = "^3.10"
 django-extensions = "^3.2.0"
 Django = "^4.1.1"
 djangorestframework = "^3.13.1"
+environs = "^9.5.0"
+psycopg2 = "^2.9.3"
 
 [tool.poetry.dev-dependencies]
 pylint-django = "^2.5.3"
@@ -25,3 +21,36 @@ mypy = "^0.971"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+# Tool specific settings
+
+[tool.pylint.main]
+ignore = ["urls.py", "apps.py", "manage.py", "local.py", "tests", "config.local", ".venv"]
+
+[tool.pylint.message_control]
+disable = [
+  "too-few-public-methods",
+  "too-many-ancestors",
+  "invalid-name",
+  "no-member",
+  "missing-module-docstring",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+exclude = ["config/", "urls.py",]
+
+[tool.isort]
+skip = ["migrations", ".venv"]
+profile = "black"
+
+[tool.black]
+line-length = 88
+include = '\.pyi?$'
+exclude = '''
+/(
+  \.mypy_cache
+  | migrations
+  | .venv
+)/
+'''
