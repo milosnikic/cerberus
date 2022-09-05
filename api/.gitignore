@@ -150,5 +150,5 @@ cython_debug/
 # PyCharm
 .idea/
 
-# Visual Studio Code
-.vscode
+# Postgres data
+deployments/data

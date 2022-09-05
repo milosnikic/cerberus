@@ -8,44 +8,52 @@ user_model = settings.AUTH_USER_MODEL
 
 
 class BaseModel(models.Model):
+    """BaseModel class that contains base attributes for all entities
+
+    Attributes:
+        uuid (UUID): Unique identifier for entity
+        created_by(UserModel): User that has created entity
+        created_at (datetime): Date and time when entity was created
+        updated_by (UserModel): User that has updated entity
+        updated_at (datetime): Date and time when entity was updated
+    """
+
     uid = models.UUIDField(
-        verbose_name=_('UUID'),
-        unique=True,
-        default=uuid.uuid4,
-        editable=False
+        verbose_name=_("UUID"), unique=True, default=uuid.uuid4, editable=False
     )
 
     created_by = models.ForeignKey(
         to=user_model,
-        verbose_name=_('Created by'),
+        verbose_name=_("Created by"),
         null=True,
         blank=True,
-        related_name='%(class)s_created',
-        on_delete=models.SET_NULL
+        related_name="%(class)s_created",
+        on_delete=models.SET_NULL,
     )
 
     created_at = models.DateTimeField(
-        verbose_name=_('Created at'),
+        verbose_name=_("Created at"),
         auto_now_add=True,
         editable=False,
-        db_index=True
+        db_index=True,
     )
 
     updated_by = models.ForeignKey(
         to=user_model,
-        verbose_name=_('Updated by'),
+        verbose_name=_("Updated by"),
         null=True,
         blank=True,
-        related_name='%(class)s_updated',
-        on_delete=models.SET_NULL
+        related_name="%(class)s_updated",
+        on_delete=models.SET_NULL,
     )
 
     updated_at = models.DateTimeField(
-        verbose_name=_('Updated at'),
-        auto_now=True,
-        null=True,
-        blank=True
+        verbose_name=_("Updated at"), auto_now=True, null=True, blank=True
     )
 
     class Meta:
+        """The Meta class is a class within a class. It's a class that's used to provide additional
+        information about the class that it's nested within
+        """
+
         abstract = True

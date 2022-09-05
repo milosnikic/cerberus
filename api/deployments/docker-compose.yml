@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: ./deployments/django-project/Dockerfile
+    image: cerberus-api
+    container_name: cerberus_api
+    command: bash -c './wait-for-it.sh db:5432 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - ..:/cerberus-api
+    environment:
+      - DB_HOST=db
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: postgres
+    container_name: cerberus_db
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=cerberus
+      - POSTGRES_PASSWORD=12345678
+    ports:
+      - "5432:5432"
