@@ -1,3 +1,5 @@
+from django.urls import include, path
+
 app_name = "core"
 
-urlpatterns = []
+urlpatterns = [path("players/", include("apps.players.urls"))]
