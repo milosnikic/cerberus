@@ -4,6 +4,11 @@ ARG ENV
 
 ENV ENV=${ENV}
 
+# Dependencies for Pillow
+RUN apk add --no-cache jpeg-dev zlib-dev
+RUN apk add --no-cache --virtual .build-deps build-base linux-headers
+RUN python3 -m pip install --upgrade pip
+
 RUN apk update\
     && apk add postgresql-dev gcc python3-dev musl-dev libffi-dev\
     && pip install poetry
@@ -18,7 +23,7 @@ COPY . /cerberus-api
 
 # Multistage build
 FROM python:3.10.5-alpine
-RUN apk update && apk add postgresql-dev bash
+RUN apk update && apk add postgresql-dev bash jpeg-dev zlib-dev
 COPY --from=build /usr/local/lib/python3.10/site-packages/ /usr/local/lib/python3.10/site-packages/
 COPY --from=build /usr/local/bin/ /usr/local/bin/
 COPY . /cerberus-api

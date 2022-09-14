@@ -2,7 +2,6 @@
 Django settings for config project.
 """
 
-from datetime import timedelta
 from pathlib import Path
 
 from environs import Env
@@ -12,14 +11,14 @@ env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-MEDIA_ROOT = Path.joinpath(BASE_DIR, "static")
+MEDIA_ROOT = Path.joinpath(BASE_DIR, "media")
 
 SECRET_KEY = env(
     "SECRET_KEY",
     "django-insecure-$227hjjmuq2e!)o^@2&#2v#+(-=@$v362o@8g#s9!2)tjn1)1a",
 )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "api"]
 
 
 INSTALLED_APPS = [
@@ -89,11 +88,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+STATIC_ROOT = Path.joinpath(BASE_DIR, "static")
 STATIC_URL = "static/"
 
-
 DEBUG = env("DEBUG", True)
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 
 
 DATABASES = {

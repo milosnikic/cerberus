@@ -1,7 +1,8 @@
-from apps.players.api.v1.serializers import PlayerListSerializer
-from apps.players.models import Player
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
+
+from apps.players.api.v1.serializers import PlayerListSerializer
+from apps.players.models import Player
 
 
 class PlayersListAPI(ListAPIView):
