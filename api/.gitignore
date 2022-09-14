@@ -152,3 +152,11 @@ cython_debug/
 
 # Postgres data
 deployments/data
+
+# File imports
+imports/players/*
+
+# Static files
+static/images/flags/*
+static/images/players/*
+static/admin/*

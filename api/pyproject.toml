@@ -11,8 +11,10 @@ Django = "^4.1.1"
 djangorestframework = "^3.13.1"
 environs = "^9.5.0"
 psycopg2 = "^2.9.3"
+Pillow = "^9.2.0"
 
 [tool.poetry.dev-dependencies]
+drf-spectacular = "^0.23.1"
 pylint-django = "^2.5.3"
 pylint = "^2.15.0"
 black = "^22.8.0"
@@ -25,7 +27,7 @@ build-backend = "poetry.core.masonry.api"
 # Tool specific settings
 
 [tool.pylint.main]
-ignore = ["urls.py", "apps.py", "manage.py", "local.py", "tests", "config.local", ".venv"]
+ignore = ["urls.py", "apps.py", "manage.py", "local.py", "tests", "config.local", ".venv", "migrations"]
 
 [tool.pylint.message_control]
 disable = [

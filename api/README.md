@@ -72,9 +72,9 @@ success page provided by Django at [http://127.0.0.1:8000/](http://127.0.0.1:800
 │   ├── urls.py
 │   └── wsgi.py
 ├── deployments
-│   ├── django-project
+│   ├── drf-project
 │   │   └── Dockerfile
-│   ├── nginx
+│   ├── react-app
 │   │   ├── default.conf
 │   │   └── Dockerfile
 │   └── docker-compose.yml

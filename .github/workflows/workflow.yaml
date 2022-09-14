@@ -109,6 +109,6 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:api"
-          file: deployments/django-project/Dockerfile
+          file: deployments/drf-project/Dockerfile
           build-args: ENV=production
           tags: ${{ secrets.DOCKER_HUB_API_IMAGE_LOCATION }}:latest

@@ -7,16 +7,18 @@ from pathlib import Path
 from environs import Env
 
 env = Env()
+env.read_env()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+MEDIA_ROOT = Path.joinpath(BASE_DIR, "media")
 
 SECRET_KEY = env(
     "SECRET_KEY",
     "django-insecure-$227hjjmuq2e!)o^@2&#2v#+(-=@$v362o@8g#s9!2)tjn1)1a",
 )
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["localhost", "api"]
 
 
 INSTALLED_APPS = [
@@ -26,6 +28,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "drf_spectacular",
+    "apps.core",
+    "apps.players",
 ]
 
 MIDDLEWARE = [
@@ -83,13 +88,12 @@ USE_I18N = True
 
 USE_TZ = True
 
-
+STATIC_ROOT = Path.joinpath(BASE_DIR, "static")
 STATIC_URL = "static/"
 
-
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
 DEBUG = env("DEBUG", True)
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost"]
 
 
 DATABASES = {
@@ -101,4 +105,18 @@ DATABASES = {
         "HOST": env("DB_HOST", "localhost"),
         "PORT": env.int("DB_PORT", 5432),
     }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 50,
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Cerberus API",
+    "DESCRIPTION": "Cerberus API documentation",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
