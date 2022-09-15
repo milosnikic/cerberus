@@ -4,7 +4,6 @@ services:
     build:
       context: ../../frontend
       dockerfile: ../api/deployments/react-app/Dockerfile
-    image: cerberus-web
     container_name: cerberus_web
     command: npm run start:react
     volumes:
@@ -17,7 +16,6 @@ services:
     build:
       context: ..
       dockerfile: ./deployments/drf-project/Dockerfile
-    image: cerberus-api
     container_name: cerberus_api
     command: bash -c './wait-for-it.sh db:5432 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
     volumes:

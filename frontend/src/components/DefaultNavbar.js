@@ -46,8 +46,7 @@ export default function DefaultNavbar() {
                                 ABOUT US
                             </NavLink>
                             <NavLink
-                                href="https://material-tailwind.com/components?ref=mtk"
-                                target="_blank"
+                                href="/players"
                                 rel="noreferrer"
                                 ripple="light"
                             >
