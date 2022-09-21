@@ -53,6 +53,14 @@ export default function DefaultNavbar() {
                                 <Icon name="sports_esports" size="2xl" />
                                 &nbsp;Players
                             </NavLink>
+                            <NavLink
+                                href="/players"
+                                rel="noreferrer"
+                                ripple="light"
+                            >
+                                <Icon name="tour" size="2xl" />
+                                &nbsp;Tournaments
+                            </NavLink>
                             <div className="text-white">
                                 <Dropdown
                                     color="transparent"

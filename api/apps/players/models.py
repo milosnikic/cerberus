@@ -27,6 +27,7 @@ class Team(BaseModel):
     """
 
     name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to="images/teams", blank=True)
 
     def __str__(self) -> str:
         """String representation of team
