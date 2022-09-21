@@ -12,5 +12,11 @@ Web application used for tracking CSGO players and tournaments
 - [x] Add Reactjs template
 - [x] Add Tailwind and Bootstrap
 - [x] Add players, teams and django admin support
-- [ ] Create own webscrapper for usefull information from [HLTV.org](https://www.hltv.org/)
-- [ ] Add [Faceit](https://faceit.com) API support
+- [x] Create own webscrapper for usefull information from [HLTV.org](https://www.hltv.org/)
+- [x] Add [Faceit](https://faceit.com) API support
+- [ ] Include webscrapper and Faceit API to application
+- [ ] Adde celery as backgorund job scheduler
+- [ ] Design profile page
+- [ ] Implement tournaments as separate application
+- [ ] Design tournaments page
+- [ ] Add feature to show similar players to current looking player
