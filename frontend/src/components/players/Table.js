@@ -11,7 +11,7 @@ export default function Table() {
     const [players, setPlayers] = useState([])
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/players/v1/?page=3")
+        fetch("http://localhost:8000/api/players/v1/")
             .then(res => res.json())
             .then(
                 (result) => {
@@ -86,7 +86,7 @@ export default function Table() {
                                                 <div className="flex justify-center">
                                                     <div className="mr-2 flex items-center gap-2">
                                                         {player.nationality.map(nationality => {
-                                                            return <img key={nationality.id} className="w-8 h-6 rounded" title={nationality.name} alt={nationality.name}
+                                                            return <img key={nationality.id} className="w-8 h-6 rounded border border-gray-100" title={nationality.name} alt={nationality.name}
                                                                 src={nationality.flag} />
                                                         })}
                                                     </div>

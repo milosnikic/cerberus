@@ -160,3 +160,6 @@ imports/players/*
 static/images/flags/*
 static/images/players/*
 static/admin/*
+
+# Media files
+media/*/*
