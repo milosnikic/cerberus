@@ -26,6 +26,8 @@ services:
     volumes:
       - staticfiles:/cerberus-api/static
       - mediafiles:/cerberus-api/media
+    ports:
+      - 8000:8000
     environment:
       - DB_HOST=db
     depends_on:

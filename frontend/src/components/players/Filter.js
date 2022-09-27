@@ -1,42 +1,41 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from "framer-motion/dist/framer-motion";
+import { get } from '../../utils';
 
 export default function Filter() {
     const [error, setError] = useState(null);
-    const [isLoaded, setIsLoaded] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [nationalities, setNationalities] = useState([]);
     const [roles, setRoles] = useState([]);
 
     const activeClass = '';
-    const inactiveClass = ' opacity-25 border-2 border-gray-300 bg-gray-400';
+    const inactiveClass = ' opacity-25 bg-gray-400';
 
     useEffect(() => {
-        fetch("http://localhost:8000/api/players/v1/nationalities")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    const nations = result.results.map(item => ({ ...item, active: true }))
-                    setNationalities(nations);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
-        fetch("http://localhost:8000/api/players/v1/roles")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoaded(true);
-                    const mappedRoles = result.results.map(item => ({ ...item, active: true }));
-                    setRoles(mappedRoles);
-                },
-                (error) => {
-                    setIsLoaded(true);
-                    setError(error);
-                }
-            )
+        const fetchNationalities = async () => {
+            setLoading(true);
+            try {
+                const data = await get("/api/players/v1/nationalities");
+                const nationalities = data.results.map(nationality => ({ ...nationality, active: true }))
+                setNationalities(nationalities);
+            } catch (err) {
+                setError(err);
+            }
+            setLoading(false);
+        }
+        const fetchRoles = async () => {
+            setLoading(true);
+            try {
+                const data = await get("/api/players/v1/roles");
+                const roles = data.results.map(role => ({ ...role, active: true }))
+                setRoles(roles);
+            } catch (err) {
+                console.log(err);
+            }
+            setLoading(false);
+        }
+        fetchNationalities();
+        fetchRoles();
     }, [])
 
     const toggleClass = (event, button) => {
@@ -56,6 +55,14 @@ export default function Filter() {
             element.className = element.className.replace(activeClass, '');
         }
     };
+
+    if (loading) {
+        return <div>Loading...</div>
+    }
+
+    if (error) {
+        return <div>{error}</div>
+    }
 
     return (
         <div className="w-full shadow-xl p-5 rounded-md bg-white">
@@ -93,33 +100,17 @@ export default function Filter() {
                         className="flex items-center justify-between mb-4 mt-4">
                         {
                             roles.map(role => {
-                                if (error) {
-                                    console.log(`Error: ${error}`);
-                                    return <></>;
-                                }
-                                if (isLoaded) {
-                                    return <button key={role.id} onClick={(event) => { toggleClass(event, role) }} className={`border border-gray-400 rounded-xl py-1 px-3 hover:bg-gray-500 cursor-pointer focus:outline-none active:outline-none${role.active ? activeClass : inactiveClass}`}>
-                                        <span className="font-medium">{role.name}</span>
-                                    </button>
-                                }
-
-                                return <></>
+                                return <button key={role.id} onClick={(event) => { toggleClass(event, role) }} className={`border border-gray-400 rounded-xl py-1 px-3 hover:bg-gray-500 cursor-pointer focus:outline-none active:outline-none${role.active ? activeClass : inactiveClass}`}>
+                                    <span className="font-medium">{role.name}</span>
+                                </button>
                             })
                         }
                         {
                             nationalities.map(nationality => {
-                                if (error) {
-                                    console.log(`Error: ${error}`);
-                                    return <></>;
-                                }
-                                if (isLoaded) {
-                                    return <button key={nationality.id} onClick={(event) => toggleClass(event, nationality)} className={`border border-gray-400 rounded-xl py-1 px-3 hover:bg-gray-500 cursor-pointer focus:outline-none active:outline-none ${nationality.active ? activeClass : inactiveClass}`}>
-                                        <img className="w-8 h-6 rounded" title={nationality.name} alt={nationality.name}
-                                            src={nationality.flag} />
-                                    </button>
-                                }
-
-                                return <></>
+                                return <button key={nationality.id} onClick={(event) => toggleClass(event, nationality)} className={`border border-gray-400 rounded-xl py-1 px-3 hover:bg-gray-500 cursor-pointer focus:outline-none active:outline-none ${nationality.active ? activeClass : inactiveClass}`}>
+                                    <img className="w-8 h-6 rounded" title={nationality.name} alt={nationality.name}
+                                        src={nationality.flag} />
+                                </button>
                             })}
                     </motion.div>
                 </form>
