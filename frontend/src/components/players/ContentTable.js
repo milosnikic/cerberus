@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Filter from './Filter'
+import Filter from './filter/FilterContainer'
 import Table from './Table'
 import Pagination from '../Pagination';
 

@@ -19,3 +19,18 @@
         --tw-translate-x: -50% !important;
     }
 }
+
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pb-35 {
+    padding-bottom: 35px;
+}
+
+.max-w-250 {
+    max-width: 250px;
+}

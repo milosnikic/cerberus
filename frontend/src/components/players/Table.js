@@ -34,7 +34,7 @@ export default function Table({ players, loading, error, totalPlayers }) {
             <div className="w-full">
                 <div
                     className="bg-white shadow-md rounded my-6">
-                    <div className="flex rounded mb-1 justify-end text-gray-600">Total players: {totalPlayers}</div>
+                    <div className="flex rounded mb-1 px-2 justify-end text-gray-600">Total players: {totalPlayers}</div>
                     <table
                         className="min-w-max w-full table-auto">
                         <thead>
@@ -49,7 +49,8 @@ export default function Table({ players, loading, error, totalPlayers }) {
                                 <th className="py-3 px-6 text-center">Socials</th>
                                 <th className="py-3 px-6 text-left">Email
                                     <span
-                                        className='border-2 rounded-full px-1 py-0 opacity-30 border-gray-500 text-small cursor-help'>
+                                        className='border-2 rounded-full px-1 py-0 ml-1 opacity-30 border-gray-500 text-small cursor-help'
+                                        title="Click on players email to copy it to clipboard">
                                         ?
                                     </span>
                                 </th>
@@ -109,28 +110,28 @@ export default function Table({ players, loading, error, totalPlayers }) {
                                         </td>
                                         <td className="py-3 px-6">
                                             <div className="flex justify-center gap-4">
-                                                <div className="mr-2">
+                                                <div className="mr-2 hover:scale-105">
                                                     <a href={player.faceit}>
                                                         <Image src={FaceitImage} className="w-7 h-7" />
                                                     </a>
                                                 </div>
-                                                <div className="mr-2">
+                                                <div className="mr-2 hover:scale-105">
                                                     <a href={player.twitter} target="_blank" rel="noreferrer">
                                                         <Image src={TwitterImage} className="w-7 h-7" />
                                                     </a>
                                                 </div>
-                                                <div className="mr-2">
+                                                <div className="mr-2 hover:scale-105">
                                                     <a href={player.hltv}>
                                                         <Image src={HltvImage} className="w-7 h-7" />
                                                     </a>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="py-3 px-6 cursor-pointer"
-                                            onClick={() => { navigator.clipboard.writeText(player.email ? player.email : '') }}>
+                                        <td className="py-3 px-6 max-w-250">
                                             <div className="flex">
-                                                <div className="mr-2">
-                                                    <span>{player.email ? player.email : 'N/A'}</span>
+                                                <div className="mr-2 text-ellipsis hover:scale-105">
+                                                    <span onClick={() => { if (player.email) navigator.clipboard.writeText(player.email) }}
+                                                        className={`${player.email ? "hover:text-cyan-700 cursor-pointer" : "text-red-500"}`}>{player.email ? player.email : 'N/A'}</span>
                                                 </div>
                                             </div>
                                         </td>

@@ -1,4 +1,7 @@
+from datetime import date, datetime
+
 import django_filters
+from dateutil.relativedelta import relativedelta
 from django.db.models import Q
 
 from apps.players.models import Player
@@ -11,9 +14,36 @@ class PlayerFilter(django_filters.FilterSet):
         field_name="nationality", method="filter_fields"
     )
     roles = django_filters.CharFilter(method="filter_fields")
+    min_age = django_filters.NumberFilter(
+        field_name="date_of_birth", method="filter_min_age"
+    )
+    max_age = django_filters.NumberFilter(
+        field_name="date_of_birth", method="filter_max_age"
+    )
+
+    def filter_max_age(self, queryset, name, value):
+        """Filters queryset by maximum age"""
+        date_ago = datetime.combine(
+            date.today() - relativedelta(years=value), datetime.min.time()
+        )
+
+        lookup = "__".join([name, "gte"])
+
+        return queryset.filter(**{lookup: date_ago})
+
+    def filter_min_age(self, queryset, name, value):
+        """Filters queryset by minimum age"""
+
+        date_ago = datetime.combine(
+            date.today() - relativedelta(years=value), datetime.min.time()
+        )
+
+        lookup = "__".join([name, "lte"])
+
+        return queryset.filter(**{lookup: date_ago})
 
     def filter_fields(self, queryset, name, value):
-        """Filter queryset by specified field.
+        """Filters queryset by specified field.
         When value is provided as comma separated values.
         This method will split those values and form
         complex query to make concatenated query with or.
@@ -42,4 +72,4 @@ class PlayerFilter(django_filters.FilterSet):
         """The Meta class is a special class that defines metadata for a model"""
 
         model = Player
-        fields = ["nationalities", "roles"]
+        fields = ["nationalities", "roles", "min_age", "max_age"]

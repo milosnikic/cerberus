@@ -18,7 +18,11 @@ class PlayersListAPI(ListAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerListSerializer
     permission_classes = [AllowAny]
-    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filter_backends = [
+        filters.SearchFilter,
+        filters.OrderingFilter,
+        DjangoFilterBackend,
+    ]
     filterset_class = PlayerFilter
     search_fields = [
         "username",
@@ -26,6 +30,7 @@ class PlayersListAPI(ListAPIView):
         "last_name",
         "teams__team__name",
     ]
+    ordering_fields = ["username", "first_name", "last_name", "date_of_birth"]
 
 
 class NationalitiesListAPI(ListAPIView):
