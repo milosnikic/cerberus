@@ -1,12 +1,33 @@
 import React from 'react'
+import { getRequest } from '../utils'
 
-export default function Pagination() {
+export default function Pagination({ setPlayers, next, previous, setNext, setPrevious, setLoading, setError, setTotalPlayers }) {
+    const searchPlayers = (event, url) => {
+        if (url) {
+            const fetchPlayers = async () => {
+                try {
+                    setLoading(true);
+                    const data = await getRequest(url);
+
+                    setTotalPlayers(data.count);
+                    setPlayers(data.results);
+                    setNext(data.next);
+                    setPrevious(data.previous);
+                    setLoading(false);
+                } catch (err) {
+                    setError(err);
+                }
+            }
+
+            fetchPlayers();
+        }
+    }
     return (
-        <ol className="flex justify-center text-xs font-medium gap-1 mt-4 pb-4">
+        <ol className="flex justify-center gap-4 text-xs font-medium pb-4">
             <li>
-                <a
-                    href="/?page=1"
-                    className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
+                <div
+                    onClick={(e) => searchPlayers(e, previous)}
+                    className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${!previous ? 'not-allowed' : 'cursor-pointer'}`}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -20,46 +41,13 @@ export default function Pagination() {
                             clipRule="evenodd"
                         />
                     </svg>
-                </a>
+                </div>
             </li>
 
             <li>
-                <a
-                    href="/?page=1"
-                    className="inline-flex items-center justify-center w-8 h-8 text-center border border-gray-100 rounded leading-8K"
-                >
-                    1
-                </a>
-            </li>
-
-            <li
-                className="inline-flex items-center justify-center w-8 h-8 text-center text-white bg-gray-500 border-gray-500 rounded leading-8"
-            >
-                2
-            </li>
-
-            <li>
-                <a
-                    href="/?page=3"
-                    className="inline-flex items-center justify-center w-8 h-8 text-center border border-gray-100 rounded leading-8"
-                >
-                    3
-                </a>
-            </li>
-
-            <li>
-                <a
-                    href="/?page=4"
-                    className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded leading-8"
-                >
-                    4
-                </a>
-            </li>
-
-            <li>
-                <a
-                    href="/?page=3"
-                    className="inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
+                <div
+                    onClick={(e) => searchPlayers(e, next)}
+                    className={`inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded ${!next ? 'not-allowed' : 'cursor-pointer'}`}
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +61,7 @@ export default function Pagination() {
                             clipRule="evenodd"
                         />
                     </svg>
-                </a>
+                </div>
             </li>
         </ol>
     )

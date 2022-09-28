@@ -14,3 +14,4 @@ Web application used for tracking CSGO players and tournaments
 - [x] Add players, teams and django admin support
 - [ ] Create own webscrapper for usefull information from [HLTV.org](https://www.hltv.org/)
 - [ ] Add [Faceit](https://faceit.com) API support
+- [x] Add search functionality

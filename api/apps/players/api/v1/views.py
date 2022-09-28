@@ -3,6 +3,7 @@ from rest_framework import filters
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import AllowAny
 
+from apps.players.api.v1.filters import PlayerFilter
 from apps.players.api.v1.serializers import (
     NationalitySerializer,
     PlayerListSerializer,
@@ -18,13 +19,13 @@ class PlayersListAPI(ListAPIView):
     serializer_class = PlayerListSerializer
     permission_classes = [AllowAny]
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_class = PlayerFilter
     search_fields = [
         "username",
         "first_name",
         "last_name",
         "teams__team__name",
     ]
-    filterset_fields = ["roles__name", "nationality__name"]
 
 
 class NationalitiesListAPI(ListAPIView):
