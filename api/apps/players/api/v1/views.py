@@ -30,7 +30,13 @@ class PlayersListAPI(ListAPIView):
         "last_name",
         "teams__team__name",
     ]
-    ordering_fields = ["username", "first_name", "last_name", "date_of_birth"]
+    ordering_fields = [
+        "username",
+        "first_name",
+        "last_name",
+        "date_of_birth",
+        "teams__team__name",
+    ]
 
 
 class NationalitiesListAPI(ListAPIView):

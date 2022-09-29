@@ -17,8 +17,8 @@ export default function ContentTable() {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-2xl -mt-64">
                     <div className="px-6">
                         <Filter setPlayers={setPlayers} setLoading={setLoading} setError={setError} setNext={setNext} setPrevious={setPrevious} setTotalPlayers={setTotalPlayers} />
-                        <Table players={players} loading={loading} error={error} setPlayers={setPlayers} totalPlayers={totalPlayers} />
-                        <Pagination setPlayers={setPlayers} next={next} previous={previous} setNext={setNext} setPrevious={setPrevious} setLoading={setLoading} setError={setError} setTotalPlayers={setTotalPlayers} />
+                        <Pagination setPlayers={setPlayers} next={next} previous={previous} setNext={setNext} setPrevious={setPrevious} setLoading={setLoading} setError={setError} setTotalPlayers={setTotalPlayers} totalPlayers={totalPlayers} players={players} />
+                        <Table players={players} loading={loading} error={error} totalPlayers={totalPlayers} />
                     </div>
                 </div>
             </div>

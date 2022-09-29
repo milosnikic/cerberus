@@ -33,8 +33,7 @@ export default function Table({ players, loading, error, totalPlayers }) {
             className="min-w-screen flex justify-center font-sans overflow-hidden">
             <div className="w-full">
                 <div
-                    className="bg-white shadow-md rounded my-6">
-                    <div className="flex rounded mb-1 px-2 justify-end text-gray-600">Total players: {totalPlayers}</div>
+                    className="bg-white shadow-md rounded my-6 mt-4">
                     <table
                         className="min-w-max w-full table-auto">
                         <thead>

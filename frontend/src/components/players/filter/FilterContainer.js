@@ -5,19 +5,23 @@ import Filter from './Filter';
 
 export default function FilterContainer({ setPlayers, setLoading, setError, setNext, setPrevious, setTotalPlayers }) {
     const [query, setQuery] = useState("");
+    const [ordering, setOrdering] = useState("");
+    const [minAge, setMinAge] = useState("");
+    const [maxAge, setMaxAge] = useState("");
     const [nationalities, setNationalities] = useState([]);
     const [roles, setRoles] = useState([]);
 
     const fetchPlayers = async () => {
         setLoading(true);
         try {
-            var url = `/api/players/v1/?search=${query}`;
+            var url = `/api/players/v1/?search=${query}${ordering}${minAge}${maxAge}`;
+
             if (roles.some(role => !role.active) || nationalities.some(nation => !nation.active)) {
                 const rolesSelected = getQueryParamsRoles();
                 const nationalitiesSelected = getQueryParamsNationalities();
                 url = `${url}${rolesSelected}${nationalitiesSelected}`;
             }
-            console.log(url);
+
             const data = await get(url)
             setTotalPlayers(data.count);
             setPlayers(data.results);
@@ -27,20 +31,20 @@ export default function FilterContainer({ setPlayers, setLoading, setError, setN
         } catch (err) {
             setError(err);
         }
+    }
 
-        const getQueryParamsRoles = () => {
-            return '&roles=' + roles.filter(role => role.active).map(role => role.name).join(",");
-        }
+    const getQueryParamsRoles = () => {
+        return '&roles=' + roles.filter(role => role.active).map(role => role.name).join(",");
+    }
 
-        const getQueryParamsNationalities = () => {
-            return '&nationalities=' + nationalities.filter(nation => nation.active).map(nation => nation.name).join(",");
-        }
+    const getQueryParamsNationalities = () => {
+        return '&nationalities=' + nationalities.filter(nation => nation.active).map(nation => nation.name).join(",");
     }
 
     useEffect(() => {
-        if (query.length === 0 || query.length > 2)
+        if (query.length === 0 || query.length > 2 || ordering.length > 0 || minAge.length > 0 || maxAge.length > 0)
             fetchPlayers();
-    }, [query]);
+    }, [query, ordering, minAge, maxAge]);
 
     useEffect(() => {
         const fetchNationalities = async () => {
@@ -71,9 +75,13 @@ export default function FilterContainer({ setPlayers, setLoading, setError, setN
 
 
     return (
-        <div className="w-full shadow-xl p-5 rounded-md bg-white">
+        <div className="w-full shadow-xl p-5 pb-1 rounded-md bg-white">
             <Search setQuery={setQuery} />
-            <Filter roles={roles} nationalities={nationalities} fetchPlayers={fetchPlayers} />
+            <Filter roles={roles} nationalities={nationalities}
+                fetchPlayers={fetchPlayers}
+                setOrdering={setOrdering}
+                setMaxAge={setMaxAge}
+                setMinAge={setMinAge} />
         </div>
     )
 }
