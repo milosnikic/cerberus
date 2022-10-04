@@ -1,0 +1,46 @@
+version: '3.9'
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./api/deployments/react-app/Dockerfile.prod
+    image: cerberus-nginx-prod
+    container_name: cerberus_web_prod
+    command: sh -c "./init.sh && nginx -g 'daemon off;'"
+    volumes:
+      - staticfiles:/api/static
+      - mediafiles:/api/media
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+  backend:
+    build:
+      context: .
+      dockerfile: ./api/deployments/drf-project/Dockerfile
+    image: cerberus-api-prod
+    container_name: cerberus_api_prod
+    restart: always
+    command: bash -c './wait-for-it.sh db:5432 && python manage.py collectstatic --noinput && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
+    volumes:
+      - staticfiles:/cerberus-api/static
+      - mediafiles:/cerberus-api/media
+    ports:
+      - 8000:8000
+    environment:
+      - DB_HOST=db
+    depends_on:
+      - db
+  db:
+    image: postgres
+    container_name: cerberus_db_prod
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=cerberus
+      - POSTGRES_PASSWORD=12345678
+volumes:
+  staticfiles:
+  mediafiles:
+  postgres_data:
