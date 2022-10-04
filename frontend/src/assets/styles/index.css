@@ -19,3 +19,32 @@
         --tw-translate-x: -50% !important;
     }
 }
+
+
+.text-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.pb-35 {
+    padding-bottom: 35px;
+}
+
+.max-w-250 {
+    max-width: 250px;
+}
+
+.text-gray-300 {
+    border-color: rgba(224, 224, 224, var(--tw-border-opacity))
+}
+
+.not-allowed {
+    border: 1px solid rgb(191, 0, 0);
+    opacity: .2;
+    cursor: not-allowed;
+}
+
+.focus\:border-1:focus{
+    border-width:1px
+}

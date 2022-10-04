@@ -2,26 +2,26 @@ version: '3.9'
 services:
   frontend:
     build:
-      context: ../../frontend
-      dockerfile: ../api/deployments/react-app/Dockerfile
-    image: cerberus-web
+      context: .
+      dockerfile: ./api/deployments/react-app/Dockerfile
+    image: cerberus-front
     container_name: cerberus_web
     command: npm run start:react
     volumes:
-      - ../../frontend:/app
+      - ./frontend:/app
     ports:
       - "3000:3000"
     depends_on:
       - api
   api:
     build:
-      context: ..
-      dockerfile: ./deployments/drf-project/Dockerfile
+      context: .
+      dockerfile: ./api/deployments/drf-project/Dockerfile
     image: cerberus-api
     container_name: cerberus_api
     command: bash -c './wait-for-it.sh db:5432 && python manage.py migrate && python manage.py runserver 0.0.0.0:8000'
     volumes:
-      - ..:/cerberus-api
+      - ./api:/cerberus-api
     environment:
       - DB_HOST=db
     ports:
@@ -32,9 +32,11 @@ services:
     image: postgres
     container_name: cerberus_db
     volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=cerberus
       - POSTGRES_PASSWORD=12345678
     ports:
-      - "5432:5432"
+      - 5432:5432
+volumes:
+  postgres_data:

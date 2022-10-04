@@ -1,7 +1,9 @@
 # Cerberus
+
 Web application used for tracking CSGO players and tournaments
 
 # Development implementation plan
+
 - [x] Initialize project structure
 - [x] Configure pylint, mypy, black and tests
 - [x] Configure vscode
@@ -20,3 +22,6 @@ Web application used for tracking CSGO players and tournaments
 - [ ] Implement tournaments as separate application
 - [ ] Design tournaments page
 - [ ] Add feature to show similar players to current looking player
+- [x] Add search functionality
+- [ ] Refactor frontend part
+- [ ] Update save_players command to be seeding command with all necessary information

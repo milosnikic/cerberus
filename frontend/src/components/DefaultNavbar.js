@@ -46,13 +46,20 @@ export default function DefaultNavbar() {
                                 ABOUT US
                             </NavLink>
                             <NavLink
-                                href="https://material-tailwind.com/components?ref=mtk"
-                                target="_blank"
+                                href="/players"
                                 rel="noreferrer"
                                 ripple="light"
                             >
                                 <Icon name="sports_esports" size="2xl" />
                                 &nbsp;Players
+                            </NavLink>
+                            <NavLink
+                                href="/players"
+                                rel="noreferrer"
+                                ripple="light"
+                            >
+                                <Icon name="tour" size="2xl" />
+                                &nbsp;Tournaments
                             </NavLink>
                             <div className="text-white">
                                 <Dropdown
