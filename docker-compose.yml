@@ -5,7 +5,7 @@ services:
       context: .
       dockerfile: ./api/deployments/react-app/Dockerfile
     image: cerberus-front
-    container_name: cerberus_web
+    container_name: cerberus_front
     command: npm run start:react
     volumes:
       - ./frontend:/app
@@ -28,6 +28,7 @@ services:
       - "8000:8000"
     depends_on:
       - db
+      - redis
   db:
     image: postgres
     container_name: cerberus_db
@@ -38,5 +39,42 @@ services:
       - POSTGRES_PASSWORD=12345678
     ports:
       - 5432:5432
+  redis:
+    image: redis
+    container_name: cerberus_redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+  celery-beat:
+    build:
+      context: .
+      dockerfile: ./api/deployments/drf-project/Dockerfile
+    image: cerberus-celery-beat
+    container_name: cerberus_celery_beat
+    command: celery -A config beat -l info
+    volumes:
+      - ./api:/cerberus-api
+    environment:
+      - CELERY_BROKER_BACKEND_HOST=redis
+      - CELERY_BROKER_HOST=redis
+    depends_on:
+      - redis
+  celery-worker:
+    build:
+      context: .
+      dockerfile: ./api/deployments/drf-project/Dockerfile
+    image: cerberus-celery-worker
+    container_name: cerberus_celery_worker
+    command: celery -A config worker -l info
+    volumes:
+      - ./api:/cerberus-api
+    environment:
+      - CELERY_BROKER_BACKEND_HOST=redis
+      - CELERY_BROKER_HOST=redis
+      - DB_HOST=db
+    depends_on:
+      - redis
 volumes:
   postgres_data:
+  redis_data:

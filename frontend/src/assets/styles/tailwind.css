@@ -2886,3 +2886,14 @@ video {
 		text-align: left;
 	}
 }
+
+.table-fixed {
+	table-layout: fixed;
+}
+.w-230 {
+	width:230px;
+}
+
+.object-contain {
+    object-fit: contain;
+}

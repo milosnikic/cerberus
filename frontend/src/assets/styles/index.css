@@ -48,3 +48,15 @@
 .focus\:border-1:focus{
     border-width:1px
 }
+
+.table-fixed {
+    table-layout: fixed;
+}
+
+.w-230 {
+    width: 230px;
+}
+
+.object-contain {
+    object-fit: contain;
+}

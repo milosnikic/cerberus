@@ -9,7 +9,7 @@ class Command(BaseCommand):
     in database
 
     Raises:
-        CommandError: When there is problem with saving players
+        CommandError: When there is a problem with saving players
     """
 
     help = "Populates database with initial data"
@@ -18,12 +18,16 @@ class Command(BaseCommand):
         """Method is used to manage saving players from file"""
 
         if Player.objects.count() == 0:
-            try:
-                save_players()
-                self.stdout.write(
-                    self.style.SUCCESS("Successfully saved all players...")
-                )
-            except Exception as exc:
-                raise CommandError("Couldn't save players..") from exc
+            self._seed_database()
         else:
             self.stdout.write(self.style.WARNING("There are players in the database"))
+            option = input("Are you sure you want to call this command? [y/N] ")
+            if option.lower() == "y":
+                self._seed_database()
+
+    def _seed_database(self):
+        try:
+            save_players()
+            self.stdout.write(self.style.SUCCESS("Successfully saved all players..."))
+        except Exception as exc:
+            raise CommandError(f"Couldn't save players...: {exc}") from exc

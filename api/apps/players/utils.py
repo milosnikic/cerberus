@@ -4,11 +4,67 @@ from pathlib import Path
 
 from apps.players.models import Nationality, Player, PlayerTeam, Role, Team
 
+TEAM_IMAGE_MAPPING = {
+    "Partizan Esports": "partizan.png",
+    "BlueJays": "bjays.png",
+    "Entropiq Prague": "entropiq.png",
+    "fnatic Rising": "fnatic.png",
+    "Free Agent": "free-agent.png",
+    "iNation": "ination.png",
+    "KTRL": "ktrl-csgo.png",
+    "MONAD Esports": "monad.png",
+    "RUR Esports": "rur.png",
+    "Velez Mostar": "velez.png",
+    "Zero Tenacity": "zero-tenacity-csgo.png",
+}
+
+NATIONALITY_IMAGE_MAPPING = {
+    "Serbia": "serbia.png",
+    "North Macedonia": "northmacedonia.png",
+    "Bosnia and Herzegovina": "bih.png",
+    "Croatia": "croatia.png",
+    "Slovenia": "slovenia.png",
+    "Sweden": "sweden.png",
+    "Hungary": "hungary.png",
+    "Montenegro": "montenegro.jpeg",
+}
+
 
 def save_players():
     """Method used to save players from csv file to
     database
     """
+    _import_players()
+    _save_teams_images()
+    _rename_bih_nationality()
+    _save_nationality_images()
+
+
+def _rename_bih_nationality():
+    bih = Nationality.objects.filter(name="Bosnia & Herzegovina").first()
+    if bih:
+        bih.name = "Bosnia and Herzegovina"
+        bih.save()
+
+
+def _save_teams_images():
+    teams = Team.objects.all()
+    teams = list(filter(lambda team: team.name in TEAM_IMAGE_MAPPING, teams))
+    for team in teams:
+        team.image = str(Path(f"images/teams/{TEAM_IMAGE_MAPPING[team.name]}"))
+        team.save()
+
+
+def _save_nationality_images():
+    nationalities = Nationality.objects.all()
+    for nationality in nationalities:
+        nationality.flag = str(
+            Path(f"images/flags/{NATIONALITY_IMAGE_MAPPING[nationality.name]}")
+        )
+        nationality.save()
+
+
+def _import_players():
     players_import_path = Path(
         Path(__file__).resolve().parents[2], "imports", "players"
     )

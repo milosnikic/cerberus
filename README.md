@@ -23,5 +23,5 @@ Web application used for tracking CSGO players and tournaments
 - [ ] Design tournaments page
 - [ ] Add feature to show similar players to current looking player
 - [x] Add search functionality
-- [ ] Refactor frontend part
+- [ ] Refactor frontend part to use redux
 - [ ] Update save_players command to be seeding command with all necessary information
