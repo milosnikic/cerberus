@@ -25,3 +25,4 @@ Web application used for tracking CSGO players and tournaments
 - [x] Add search functionality
 - [ ] Refactor frontend part
 - [ ] Update save_players command to be seeding command with all necessary information
+- [ ] [Deployment information](https://medium.com/geekculture/deploy-a-mvp-django-react-web-application-to-digital-ocean-1a35a4359a5b)
