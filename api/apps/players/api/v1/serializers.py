@@ -1,4 +1,6 @@
 # pylint: disable=abstract-method
+import json
+
 from rest_framework import serializers
 
 from apps.players.models import Nationality, Player, PlayerTeam, Role, Team
@@ -54,8 +56,8 @@ class RoleSerializer(serializers.ModelSerializer):
         fields = ["id", "name"]
 
 
-class PlayerListSerializer(serializers.ModelSerializer):
-    """Serializer used to list players"""
+class PlayerSerializer(serializers.ModelSerializer):
+    """Serializer used to display single player"""
 
     age = serializers.IntegerField()
     roles = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
@@ -73,3 +75,39 @@ class PlayerListSerializer(serializers.ModelSerializer):
             "age",
             "image",
         )
+
+
+class PlayerListSerializer(serializers.ModelSerializer):
+    """Serializer used to list players"""
+
+    age = serializers.IntegerField()
+    roles = serializers.SlugRelatedField(slug_field="name", read_only=True, many=True)
+    teams = PlayerTeamSerializer(many=True)
+    nationality = NationalitySerializer(many=True)
+    image = serializers.ImageField()
+    hltv_rating = serializers.SerializerMethodField()
+
+    class Meta:
+        """Meta class that defines metadata for class"""
+
+        model = Player
+        exclude = (
+            "date_of_birth",
+            "statistics",
+        )
+        read_only_fields = (
+            "id",
+            "age",
+            "image",
+        )
+
+    def get_hltv_rating(self, obj):
+        """Method that finds players rating 2.0 in statistics"""
+        if obj.statistics:
+            stats = json.loads(obj.statistics)
+            if "hltv" in stats:
+                if "overall" in stats["hltv"]:
+                    if "rating_2.0" in stats["hltv"]["overall"]:
+                        return stats["hltv"]["overall"]["rating_2.0"]
+
+        return None

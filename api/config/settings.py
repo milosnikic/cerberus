@@ -131,3 +131,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://localhost",
 ]
+
+
+CELERY_BROKER_HOST = env("CELERY_BROKER_HOST", "localhost")
+CELERY_BROKER_BACKEND_HOST = env("CELERY_BROKER_BACKEND_HOST", "localhost")
+CELERY_BROKER_URL = f"redis://{CELERY_BROKER_HOST}:6379"
+CELERY_RESULT_BACKEND = f"redis://{CELERY_BROKER_BACKEND_HOST}:6379"
+CELERY_BEAT_SCHEDULE = {
+    "get-statistics-task": {
+        "task": "apps.players.tasks.get_players_statistics",
+        "schedule": 30.0,
+    },
+}

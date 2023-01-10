@@ -81,6 +81,7 @@ class Player(models.Model):
     hltv = models.CharField(max_length=255, null=True, blank=True)
     email = models.EmailField(null=True, blank=True, unique=True)
     nationality = models.ManyToManyField(Nationality, related_name="players")
+    statistics = models.JSONField(blank=True, null=True)
 
     @property
     def age(self) -> int:

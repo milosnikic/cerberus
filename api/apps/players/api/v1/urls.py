@@ -1,12 +1,22 @@
 from django.urls import path
 
-from apps.players.api.v1.views import NationalitiesListAPI, PlayersListAPI, RolesListAPI
+from apps.players.api.v1.views import (
+    NationalitiesListAPI,
+    PlayerRetrieveAPI,
+    PlayersListAPI,
+    RolesListAPI,
+)
 
 urlpatterns = [
     path(
         "",
         view=PlayersListAPI.as_view(),
         name="get-players",
+    ),
+    path(
+        "<int:pk>",
+        view=PlayerRetrieveAPI.as_view(),
+        name="get-player",
     ),
     path(
         "nationalities",

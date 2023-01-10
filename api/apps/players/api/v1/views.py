@@ -1,12 +1,13 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny
 
 from apps.players.api.v1.filters import PlayerFilter
 from apps.players.api.v1.serializers import (
     NationalitySerializer,
     PlayerListSerializer,
+    PlayerSerializer,
     RoleSerializer,
 )
 from apps.players.models import Nationality, Player, Role
@@ -37,6 +38,14 @@ class PlayersListAPI(ListAPIView):
         "date_of_birth",
         "teams__team__name",
     ]
+
+
+class PlayerRetrieveAPI(RetrieveAPIView):
+    """Retrieve API used for fetching data for single user"""
+
+    queryset = Player.objects.all()
+    serializer_class = PlayerSerializer
+    permission_classes = [AllowAny]
 
 
 class NationalitiesListAPI(ListAPIView):
