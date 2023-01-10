@@ -2901,3 +2901,12 @@ video {
 .h-fit {
 	height: fit-content;
 }
+
+.fade-effect {
+	display:block;
+	border:none;
+	color:white;
+	height:2px;
+	background: rgb(255,255,255);
+	background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(0,0,0,1) 50%, rgba(255,255,255,1) 100%);
+  }

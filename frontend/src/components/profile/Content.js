@@ -135,13 +135,14 @@ export default function Content({ params }) {
                 </div>
                 <div className="flex flex-col w-full">
                   <div className="w-full">
-                    <div className="flex pt-1 text-5xl">
+                    <div className="flex pt-1 text-5xl justify-center">
                       <h1>{playerData?.first_name}</h1>
                       <span className="px-2 font-bold">
                         '{playerData?.username}'
                       </span>
                       <h1>{playerData?.last_name}</h1>
                     </div>
+                    <span className="fade-effect mt-2"></span>
                   </div>
                   <div>
                     <div className="flex mt-4 w-full">
@@ -339,7 +340,6 @@ export default function Content({ params }) {
                           <Graph hltv={stats?.hltv} label={"HLTV Statistics"} />
                         </div>
                         <div className="ml-2 mt-2 py-3">
-                          <h2 className="pb-2">Latest HLTV matches</h2>
                           {stats?.hltv?.latest_matches.map((match) => {
                             return (
                               <a
