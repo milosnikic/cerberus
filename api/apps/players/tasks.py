@@ -1,6 +1,7 @@
 import json
 
 from celery import shared_task
+
 from apps.players.models import Player
 from apps.statistics.faceit.utils import get_faceit_statistics
 from apps.statistics.hltv.utils import get_hltv_statistics

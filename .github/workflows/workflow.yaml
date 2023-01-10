@@ -111,7 +111,6 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           push: true
-          context: "{{defaultContext}}:api"
-          file: deployments/drf-project/Dockerfile
+          file: /api/deployments/drf-project/Dockerfile
           build-args: ENV=production
           tags: ${{ secrets.DOCKER_HUB_API_IMAGE_LOCATION }}:latest
