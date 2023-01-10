@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import FaceitImage from "assets/img/faceit-logo.png";
 import TwitterImage from "assets/img/twitter-logo.png";
 import HltvImage from "assets/img/hltv-logo.png";
-import { get } from "../../utils.js";
+import { get, getRatingColor } from "../../utils.js";
+import { Graph } from "./Graph";
 
 export default function Content({ params }) {
   const [playerData, setPlayerData] = useState(null);
@@ -23,9 +24,9 @@ export default function Content({ params }) {
       <div className="container max-w-7xl px-4 mx-auto">
         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-2xl -mt-64">
           <div className="px-6">
-            <div className="rounded flex flex-row justify-between py-4">
+            <div className="rounded flex justify-between py-4">
               <div className="w-full flex">
-                <div className="w-full min-w-max max-w-max rounded-md shadow-lg px-2 mr-2">
+                <div className="w-full h-fit max-w-max rounded-md shadow-lg px-2 mr-2 pb-4">
                   <img
                     src={playerData?.image}
                     className="w-64 object-contain"
@@ -76,7 +77,7 @@ export default function Content({ params }) {
                           href={`https://www.faceit.com/en/players/${playerData?.faceit}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="hover:scale-105"
+                          className="hover:scale-105 shadow-lg rounded-full"
                         >
                           <img
                             src={FaceitImage}
@@ -96,7 +97,7 @@ export default function Content({ params }) {
                           href={playerData?.twitter}
                           target="_blank"
                           rel="noreferrer"
-                          className="hover:scale-105"
+                          className="hover:scale-105 shadow-lg rounded-full"
                         >
                           <img
                             src={TwitterImage}
@@ -115,7 +116,7 @@ export default function Content({ params }) {
                           href={playerData?.hltv}
                           target="_blank"
                           rel="noreferrer"
-                          className="hover:scale-105"
+                          className="hover:scale-105 shadow-lg rounded-full"
                         >
                           <img
                             src={HltvImage}
@@ -132,8 +133,8 @@ export default function Content({ params }) {
                     </div>
                   </div>
                 </div>
-                <div className="flex">
-                  <div>
+                <div className="flex flex-col w-full">
+                  <div className="w-full">
                     <div className="flex pt-1 text-5xl">
                       <h1>{playerData?.first_name}</h1>
                       <span className="px-2 font-bold">
@@ -141,18 +142,23 @@ export default function Content({ params }) {
                       </span>
                       <h1>{playerData?.last_name}</h1>
                     </div>
-                    {/* Statistics */}
-                    <div className="flex flex-col mt-4 w-full">
-                      <div className="w-full shadow-lg rounded-lg p-5 flex flex-col mb-4">
+                  </div>
+                  <div>
+                    <div className="flex mt-4 w-full">
+                      <div className="w-full shadow-lg rounded-lg p-5 flex flex-col mb-4 mr-2">
                         <div className="flex justify-between items-center">
                           <h1 className="text-2xl mb-4">HLTV Statistics:</h1>
-                          <span className="border border-gray-200 rounded-full shadow-lg text-xl p-2 mb-2">
+                          <span
+                            className={`border border-gray-200 hover:scale-105 rounded-full shadow-lg text-xl p-2 mb-2 ${getRatingColor(
+                              stats?.hltv?.overall["rating_2.0"]
+                            )}`}
+                          >
                             {stats?.hltv?.overall["rating_2.0"]}
                           </span>
                         </div>
-                        <div className="flex justify-between text-medium">
+                        <div className="flex flex-col text-medium gap-4">
                           <div>
-                            <span className="uppercase">
+                            <span className="uppercase font-bold">
                               Individual statistics
                             </span>
                             <div className="flex justify-between gap-2">
@@ -211,7 +217,7 @@ export default function Content({ params }) {
                             </div>
                           </div>
                           <div>
-                            <span className="uppercase">
+                            <span className="uppercase font-bold">
                               Overall statistics
                             </span>
                             <div className="flex justify-between gap-3">
@@ -259,14 +265,6 @@ export default function Content({ params }) {
                               {stats?.hltv?.overall?.deaths_round}
                             </div>
                             <div className="flex justify-between gap-3">
-                              <span>Saved by teammates: </span>
-                              {stats?.hltv?.overall?.saved_by_teammate_round}
-                            </div>
-                            <div className="flex justify-between gap-3">
-                              <span>Saved teammates: </span>
-                              {stats?.hltv?.overall?.saved_teammates_round}
-                            </div>
-                            <div className="flex justify-between gap-3">
                               <span>Rating 2.0: </span>
                               {stats?.hltv?.overall["rating_2.0"]}
                             </div>
@@ -280,9 +278,9 @@ export default function Content({ params }) {
                             (last 100 matches)
                           </span>
                         </div>
-                        <div className="flex justify-between text-medium">
+                        <div className="flex flex-col text-medium gap-4">
                           <div>
-                            <span className="uppercase">
+                            <span className="uppercase font-bold">
                               Average statistics
                             </span>
                             <div className="flex justify-between gap-10">
@@ -317,7 +315,7 @@ export default function Content({ params }) {
                             </div>
                           </div>
                           <div>
-                            <span className="uppercase">
+                            <span className="uppercase font-bold">
                               Overall statistics
                             </span>
                             <div className="flex justify-between gap-10">
@@ -336,11 +334,56 @@ export default function Content({ params }) {
                           </div>
                         </div>
                       </div>
+                      <div className="w-full">
+                        <div className="shadow-lg rounded-lg ml-2 py-4">
+                          <Graph hltv={stats?.hltv} label={"HLTV Statistics"} />
+                        </div>
+                        <div className="ml-2 mt-2 py-3">
+                          <h2 className="pb-2">Latest HLTV matches</h2>
+                          {stats?.hltv?.latest_matches.map((match) => {
+                            return (
+                              <a
+                                href={match.link}
+                                rel="noreferrer"
+                                target="_blank"
+                                key={match.team_name}
+                                className="shadow-lg w-max rounded-sm p-3 flex flex-col mb-2 cursor-pointer hover:opacity-75"
+                                style={{
+                                  backgroundColor: match.won
+                                    ? "rgba(0, 255, 0, 0.2)"
+                                    : "rgba(255, 0, 0, 0.2)",
+                                }}
+                              >
+                                <div className="flex flex-row gap-2 justify-between">
+                                  <div className="flex">
+                                    <img
+                                      className="rounded w-8 h-auto"
+                                      src={match.team_logo}
+                                      alt={match.team_name}
+                                    />
+                                    <span className="px-2">
+                                      {match.team_name}
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <span className="text-right">
+                                      {match.result}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <span className="text-muted text-gray-500 text-xs px-2 py-1 text-ellipsis">
+                                  {match.competition}
+                                </span>
+                              </a>
+                            );
+                          })}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="w-full bg-red-200">Graph</div>
             </div>
           </div>
         </div>

@@ -4,14 +4,9 @@ import TwitterImage from "assets/img/twitter-logo.png";
 import HltvImage from "assets/img/hltv-logo.png";
 import SkeletonTable from "./SkeletonTable";
 import { Link } from "react-router-dom";
+import { getRatingColor } from "utils";
 
 export default function Table({ players, loading, error }) {
-  const getRatingColor = (rating) => {
-    if (rating > 1.1) return "bg-green-200";
-    if (rating > 0.9) return "bg-yellow-200";
-    return "bg-red-200";
-  };
-
   if (loading) {
     return <SkeletonTable />;
   }

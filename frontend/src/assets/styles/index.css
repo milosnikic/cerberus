@@ -60,3 +60,7 @@
 .object-contain {
     object-fit: contain;
 }
+
+.h-fit {
+    height: fit-content;
+}

@@ -13,6 +13,7 @@ def get_hltv_statistics(url):
     """
     print("--> HLTV Stats started")
     player_stats = {}
+    player_stats["latest_matches"] = _get_latest_mathces(url)
     player_url = url.replace("player/", "stats/players/")
     player_stats["overall"] = _get_player_overall_stats(player_url)
     player_stats["individual"] = _get_player_individual_stats(player_url)
@@ -20,7 +21,7 @@ def get_hltv_statistics(url):
     return player_stats
 
 
-def _get_value(string_value):
+def _parse_string_value(string_value):
     if "%" in string_value:
         return string_value
     if "." in string_value:
@@ -48,7 +49,7 @@ def _get_player_overall_stats(player_url):
                 .lower()
             )
 
-            value = _get_value(spans[1].contents[0])
+            value = _parse_string_value(spans[1].contents[0])
             overall_player_stats[label] = value
 
     return overall_player_stats
@@ -79,7 +80,37 @@ def _get_player_individual_stats(player_url):
                 .lower()
             )
 
-            value = _get_value(spans[1].contents[0])
+            value = _parse_string_value(spans[1].contents[0])
             player_individual_stats[label] = value
 
     return player_individual_stats
+
+
+def _get_latest_mathces(player_url):
+    page_source = requests.get(player_url, timeout=10).content
+    soup = BeautifulSoup(page_source, "html.parser")
+    matches = soup.find_all("a", {"class": "playerpage-matchbox"})
+
+    latest_matches = []
+    for match in matches:
+        link = f"https://hltv.org{match['href']}"
+        left = match.find("div", {"class": "playerpage-matchbox-left"})
+        team_logo = left.img["src"]
+        team_name = left.find("div", {"class": "text-ellipsis"}).text
+        competition = left.find("div", {"class": "playerpage-matchbox-bottom"}).text
+
+        right = match.find("div", {"class": "playerpage-matchbox-right"})
+        result = right.span.text
+        won = "won-matchbox" in match["class"]
+        latest_matches.append(
+            {
+                "team_name": team_name,
+                "team_logo": team_logo,
+                "result": result,
+                "won": won,
+                "link": link,
+                "competition": competition,
+            }
+        )
+
+    return latest_matches
