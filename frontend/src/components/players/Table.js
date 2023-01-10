@@ -77,14 +77,20 @@ export default function Table({ players, loading, error }) {
                       </Link>
                     </td>
                     <td className="py-3 px-6 text-left cursor-pointer">
-                      <div className="flex items-center">
-                        <span className="font-medium">{player.last_name}</span>
-                      </div>
+                      <Link to={`/profile/${player.id}`}>
+                        <div className="flex items-center">
+                          <span className="font-medium">
+                            {player.last_name}
+                          </span>
+                        </div>
+                      </Link>
                     </td>
                     <td className="py-3 px-6 text-left cursor-pointer">
-                      <div className="flex items-center">
-                        <span>{player.username}</span>
-                      </div>
+                      <Link to={`/profile/${player.id}`}>
+                        <div className="flex items-center">
+                          <span>{player.username}</span>
+                        </div>
+                      </Link>
                     </td>
                     <td className="py-3 px-3 text-left">
                       <div className="flex justify-center">
