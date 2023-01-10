@@ -17,8 +17,8 @@ Web application used for tracking CSGO players and tournaments
 - [x] Create own webscrapper for usefull information from [HLTV.org](https://www.hltv.org/)
 - [x] Add [Faceit](https://faceit.com) API support
 - [x] Include webscrapper and Faceit API to application
-- [x] Adde celery as backgorund job scheduler
-- [ ] Design profile page
+- [x] Add celery as background job scheduler
+- [x] Design profile page
 - [ ] Implement tournaments as separate application
 - [ ] Design tournaments page
 - [ ] Add feature to show similar players to current looking player
@@ -26,7 +26,10 @@ Web application used for tracking CSGO players and tournaments
 - [ ] Refactor frontend part to use redux
 - [x] Update save_players command to be seeding command with all necessary information
 - [ ] Edit players excel file to contain links to faceit and hltv
+- [ ] [Deployment information](https://medium.com/geekculture/deploy-a-mvp-django-react-web-application-to-digital-ocean-1a35a4359a5b)
 
 ## HLTV Statistics related stuff
 
-- [ ] Add latest five matches result in webscrapper
+- [x] Add latest matches result in webscrapper
+
+
