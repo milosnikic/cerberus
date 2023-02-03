@@ -7,7 +7,7 @@ authors = ["Milos Nikic <milos.nikic@gmail.com>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 django-extensions = "^3.2.0"
-Django = "^4.1.1"
+Django = "^4.1.6"
 djangorestframework = "^3.13.1"
 environs = "^9.5.0"
 psycopg2 = "^2.9.3"
