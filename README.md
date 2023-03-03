@@ -13,6 +13,7 @@ Web application used for tracking CSGO players and tournaments
 - [x] Configure docker and docker-compose for fe
 - [x] Add Reactjs template
 - [x] Add Tailwind and Bootstrap
+- [ ] Add tests
 - [x] Add players, teams and django admin support
 - [x] Create own webscrapper for usefull information from [HLTV.org](https://www.hltv.org/)
 - [x] Add [Faceit](https://faceit.com) API support
@@ -21,7 +22,7 @@ Web application used for tracking CSGO players and tournaments
 - [x] Design profile page
 - [ ] Implement tournaments as separate application
 - [ ] Design tournaments page
-- [ ] Add feature to show similar players to current looking player
+- [ ] Add feature to show similar players to current looking player (ML)
 - [x] Add search functionality
 - [ ] Refactor frontend part to use redux
 - [x] Update save_players command to be seeding command with all necessary information
