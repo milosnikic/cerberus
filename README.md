@@ -6,6 +6,7 @@ Web application used for tracking CSGO players and tournaments
 
 - [x] Initialize project structure
 - [x] Configure pylint, mypy, black and tests
+- [ ] Configure pre-commit
 - [x] Configure vscode
 - [x] Configure docker and docker-compose for api
 - [x] Configure github actions
